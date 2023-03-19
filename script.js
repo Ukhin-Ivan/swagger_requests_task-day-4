@@ -83,6 +83,11 @@ async function postTask(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 	console.log(data);
 }
 
+// getAllTasks()
+// postTask();
+// patchTaskById(2355);
+// getTaskByTaskId(2355);
+// deleteTaskByTaskId(2355);
 
 //<==============XMLHttpRequest==============>
 
@@ -174,3 +179,9 @@ async function postTaskXHR(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 		.then((data) => console.log(data))
 		.catch((error) => console.log(`Записи с таким id не существует.`));
 }
+
+getAllTasksXHR()
+postTaskXHR();
+patchTaskByIdXHR(2245);
+getTaskByTaskIdXHR(2245);
+deleteTaskByTaskIdXHR(2245);
