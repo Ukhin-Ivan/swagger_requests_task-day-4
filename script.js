@@ -83,11 +83,11 @@ async function postTask(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 	console.log(data);
 }
 
-// getAllTasks()
-// postTask();
-// patchTaskById(2355);
-// getTaskByTaskId(2355);
-// deleteTaskByTaskId(2355);
+getAllTasks()
+postTask();
+patchTaskById(2355);
+getTaskByTaskId(2355);
+deleteTaskByTaskId(2355);
 
 //<==============XMLHttpRequest==============>
 
