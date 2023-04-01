@@ -1,8 +1,9 @@
+const BACK_URL = 'https://intership-liga.ru/tasks';
 
 //<==============FETCH==============>
 
 async function getTaskByTaskId(taskId) {
-	const response = await fetch(`https://intership-liga.ru/tasks/${taskId}`);
+	const response = await fetch(`${BACK_URL}/${taskId}`);
 
 	if(!response.ok) {
 		console.log('Записи с таким id не существует.');
@@ -14,7 +15,7 @@ async function getTaskByTaskId(taskId) {
 }
 
 async function patchTaskById(taskId, nameValue='Moby', infoValue='American musician') {
-	const response = await fetch(`https://intership-liga.ru/tasks/${taskId}`, {
+	let body = {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json'
@@ -25,7 +26,9 @@ async function patchTaskById(taskId, nameValue='Moby', infoValue='American music
 			isImportant: false,
 			isCompleted: true
 		})
-	});
+	};
+
+	const response = await fetch(`${BACK_URL}/${taskId}`, body);
 
 	if(!response.ok) {
 		console.error('Не получилось обновить запись.');
@@ -37,7 +40,7 @@ async function patchTaskById(taskId, nameValue='Moby', infoValue='American music
 }
 
 async function getAllTasks() {
-	const response = await fetch('https://intership-liga.ru/tasks');
+	const response = await fetch(BACK_URL);
 
 	if(!response.ok) {
 		console.error('Запрос не выполнен.');
@@ -49,7 +52,7 @@ async function getAllTasks() {
 }
 
 async function deleteTaskByTaskId(taskId) {
-	const response = await fetch(`https://intership-liga.ru/tasks/${taskId}`, {
+	const response = await fetch(`${BACK_URL}/${taskId}`, {
 		method: 'DELETE'
 	});
 
@@ -61,8 +64,8 @@ async function deleteTaskByTaskId(taskId) {
 	console.log('Запись успешно удалена.');
 }
 
-async function postTask(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
-	const response = await fetch(`https://intership-liga.ru/tasks`, {
+async function postTask(nameValue='Caesar', infoValue='Veni, vidi, vici.') {
+	let body = {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'
@@ -72,7 +75,9 @@ async function postTask(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 			info: infoValue,
 			isImportant: false
 		})
-	});
+	};
+
+	const response = await fetch(BACK_URL, body);
 
 	if(!response.ok) {
 		console.error('Не получилось добавить запись.');
@@ -85,9 +90,9 @@ async function postTask(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 
 getAllTasks()
 postTask();
-patchTaskById(2355);
-getTaskByTaskId(2355);
-deleteTaskByTaskId(2355);
+patchTaskById(125);
+getTaskByTaskId(125);
+deleteTaskByTaskId(125);
 
 //<==============XMLHttpRequest==============>
 
@@ -95,7 +100,7 @@ deleteTaskByTaskId(2355);
 function getTaskByTaskIdXHR(taskId) {
 	const promise = new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
-		xhr.open('GET', `https://intership-liga.ru/tasks/${taskId}`, true);
+		xhr.open('GET', `${BACK_URL}/${taskId}`, true);
 		xhr.onload = () => resolve(xhr.response);
 		xhr.onerror = () => reject(xhr.status);
 		xhr.send();
@@ -103,7 +108,7 @@ function getTaskByTaskIdXHR(taskId) {
 
 	promise
 		.then((data) => console.log(data))
-		.catch((error) => console.error(`Записи с таким id не существует.`));
+		.catch((error) => console.error('Записи с таким id не существует.'));
 }
 
 function patchTaskByIdXHR(taskId, nameValue='Moby', infoValue='American musician') {
@@ -117,7 +122,7 @@ function patchTaskByIdXHR(taskId, nameValue='Moby', infoValue='American musician
 			isCompleted: true
 		})
 
-		xhr.open('PATCH', `https://intership-liga.ru/tasks/${taskId}`);
+		xhr.open('PATCH', `${BACK_URL}/${taskId}`);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = () => resolve(xhr.response);
 		xhr.onerror = () => reject(xhr.status);
@@ -126,13 +131,13 @@ function patchTaskByIdXHR(taskId, nameValue='Moby', infoValue='American musician
 
 	promise
 		.then((data) => console.log(data))
-		.catch((error) => console.log(`Записи с таким id не существует.`));
+		.catch((error) => console.log('Записи с таким id не существует.'));
 }
 
 function getAllTasksXHR() {
 	const promise = new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
-		xhr.open('GET', 'https://intership-liga.ru/tasks');
+		xhr.open('GET', BACK_URL);
 		xhr.onload = () => resolve(xhr.response);
 		xhr.onerror = () => reject(xhr.status);
 		xhr.send();
@@ -147,7 +152,7 @@ async function deleteTaskByTaskIdXHR(taskId) {
 	const promise = new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 
-		xhr.open('DELETE', `https://intership-liga.ru/tasks/${taskId}`);
+		xhr.open('DELETE', `${BACK_URL}/${taskId}`);
 		xhr.onload = () => resolve(xhr.response);
 		xhr.onerror = () => reject(xhr.status);
 		xhr.send();
@@ -155,7 +160,7 @@ async function deleteTaskByTaskIdXHR(taskId) {
 
 	promise
 		.then((data) => console.log('Запись успешно удалена.'))
-		.catch((error) => console.log(`Записи с таким id не существует.`));
+		.catch((error) => console.log('Записи с таким id не существует.'));
 }
 
 async function postTaskXHR(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
@@ -168,7 +173,7 @@ async function postTaskXHR(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 			isImportant: false
 		})
 
-		xhr.open('POST', `https://intership-liga.ru/tasks/`);
+		xhr.open('POST', `${BACK_URL}/`);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = () => resolve(xhr.response);
 		xhr.onerror = () => reject(xhr.status);
@@ -177,11 +182,11 @@ async function postTaskXHR(nameValue='Cesar', infoValue='Veni, vidi, vici.') {
 
 	promise
 		.then((data) => console.log(data))
-		.catch((error) => console.log(`Записи с таким id не существует.`));
+		.catch((error) => console.log('Записи с таким id не существует.'));
 }
 
-getAllTasksXHR()
-postTaskXHR();
-patchTaskByIdXHR(2245);
-getTaskByTaskIdXHR(2245);
-deleteTaskByTaskIdXHR(2245);
+// getAllTasksXHR()
+// postTaskXHR();
+// patchTaskByIdXHR(2245);
+// getTaskByTaskIdXHR(2245);
+// deleteTaskByTaskIdXHR(2245);
